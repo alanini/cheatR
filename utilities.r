@@ -60,6 +60,25 @@ write_delim(x, path, delim = " ", na = "NA", append = FALSE, col_names = !append
 mydata <- read_csv('gather.csv')
 a<-gather(mydata, 2:13, key = "mes", value = "cases")
 
+#spread() from long to wide
+mydata <- read_csv('spread.csv')
+a<-spread(mydata,key=variable,casos)
+print(a)
+
+#separate() split cell by delimiter
+mydata <- read_csv('separate.csv')
+a<-separate(mydata, region, into = c("country", "continent"))
+print(a)
+
+#separate_rows() split cell by delimiter and create new row
+mydata <- read_csv('separate_rows.csv')
+a<-separate_rows(mydata, metrica, sep = "/", convert = FALSE)
+
+#unite() Collapse cells across several columns make a single column
+mydata<-read_csv('unite.csv')
+a<-unite(mydata, year, month, col = "year_month", sep = "_")
+
+
 
 
 
