@@ -56,7 +56,7 @@ write_delim(x, path, delim = " ", na = "NA", append = FALSE, col_names = !append
 
 #4.RESHAPE DATA
 
-#gather() moves column names into a key column, gathering the column values into a single value column.
+#gather() from wide to long
 mydata <- read_csv('gather.csv')
 a<-gather(mydata, 2:13, key = "mes", value = "cases")
 
