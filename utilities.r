@@ -79,6 +79,35 @@ mydata<-read_csv('unite.csv')
 a<-unite(mydata, year, month, col = "year_month", sep = "_")
 
 
+#Expand tables() Complete a data frame with missing combinations of data
+df <- tibble(
+  year   = c(2010, 2010, 2010, 2010, 2012, 2012, 2012),
+  qtr    = c(   1,    2,    3,    4,    1,    2,    3),
+  return = rnorm(7)
+  )
+
+a<-df %>% expand(year, qtr)
+b<-df %>% expand(year = 2010:2012, qtr)
+c<-df %>% expand(year = full_seq(year, 1), qtr)
+d<-df %>% complete(year = full_seq(year, 1), qtr)
+
+
+#Missing values
+df <- tibble(
+  year   = c(2010, NA, 2010, 2010, 2012, 2012, 2012),
+  qtr    = c(   NA,    2,    NA,    4,    1,    2,    3)
+)
+
+#drop_na() Drop rows containing NA's in . columns
+a<-drop_na(df, year)
+a<-drop_na(df, year,qtr)
+
+#fill() Fill in NA's in columns with most recent non-NA values.
+a<-fill(df, year)
+
+#replace_na() Replace NA's by column
+a<-replace_na(df, list(qtr = 100))
+
 
 
 
