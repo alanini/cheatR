@@ -109,5 +109,98 @@ a<-fill(df, year)
 a<-replace_na(df, list(qtr = 100))
 
 
+#5.DATA TRANSFORMATION
+df<-data.frame(x=c('a','b','c','c','a','a','a'),
+               y=c('b','b','c','a','a','a','a'),
+               z=c(1,2,3,2,1,2,NA)
+)
+
+#Select Rows
+a<-df %>% filter(x=='a') #select rows under certain criteria
+a<-df %>% distinct() #remove duplicate rows
+a<-df %>% sample_n(5, replace = FALSE) #extract a sample of n 
+a<-df %>% slice(1:2) #select by position
+a<-df %>% filter(x=='a' & y==1) #and 
+a<-df %>% filter(x=='a' | y==1) #or conidtion
+a<-df %>% filter(is.na(y)) #missing values
+a<-df %>% filter(!is.na(y)) #no missing values
+a<-df %>% filter(x %in% c('a','b')) # in clause 
+a<-df %>% filter_all(any_vars(. == 'a')) #select all columns that any column fit to certain filter
+a<-df %>% filter_all(all_vars(. == 'a')) #select all columns that all columns fit to certain filter
+a<-df %>% filter_at(vars(x,y),all_vars(.=='a')) #select the columns on wich would be applied the filter
+
+
+#Select Columns
+df<-data.frame(x=c('a','b','c','c','a','a','a'),
+               x1=c('a','b','c','c','a','a','a'),
+               x2=c('a','b','c','c','a','a','a'),
+               y=c('b','b','c','a','a','a','a'),
+               z=c(1,2,3,2,1,2,NA)
+)
+
+a<-df %>% select(x,y) #select columns by name
+a<-df %>% select(x:z) #when we have lot of columns, it is convenient to use ":"
+a<-df %>% select(-x) #deselect column
+a<-df %>% select(starts_with('x')) #all columns that start with certain character - exact pattern
+a<-df %>% select(ends_with('1')) #all columns that end with certain character - exact pattern
+a<-df %>% select(contains('x')) #all columns that contains with certain character - exact pattern
+a<-df %>% select(matches('[[:digit:]]')) #select columns based on regex
+a<-df %>% select_if(is.numeric) #select based on datatype
+a<-df %>% select(y,x) #reordering columns
+a<-df %>% select_all(toupper) #apply function to all name columns
+a<- mtcars %>%tibble::rownames_to_column("car_model") %>% head #row_names to columns
+
+#Summarise Data
+a<-df %>% count() #count the number of observations
+a<-df %>% add_tally() #adding a column with the number of total observations
+a<-df %>% add_count(x) #adding a column with the number of observations of certain variable
+a<-df %>% summarise(avg = mean(z, na.rm = TRUE), n=n(), sum=sum(z, na.rm = TRUE)) #Summarise data into single row of values.
+a<-df %>% group_by(x) %>% summarise(avg = mean(z, na.rm = TRUE), n=n(), sum=sum(z, na.rm = TRUE)) #with group
+n() #gives the number of observations
+n_distinct(var) #gives the numbers of unique values of var
+sum(var)
+max(var)
+min(var)
+mean(var)
+median(var)
+sd(var)
+IQR(var)
+
+
+#https://www.r-bloggers.com/aggregation-with-dplyr-summarise-and-summarise_each/
+a<-df %>% group_by(x) %>% summarise_all(mean, na.rm=TRUE) #apply one function to all variables
+summarise_all() #Apply funs to every column. 
+summarise_at() #Apply funs to specific columns. 
+summarise_if() #Apply funs to all cols of one type.
+
+
+
+#Make new variables
+a<- df %>% mutate(new_variable = 5) #make new vairable
+a<- df %>%  mutate(acumulado = cumsum(z)) #vector_functions
+lag()   #Offset elements by 1 
+lead()  #Offset elements by -1
+cumall() #Cumulative all() 
+cumsum()
+a<-df %>% mutate(z_new = ifelse(x=='a',z,'uh')) # ifellse inside mutate
+
+
+#mutate vs mutate_each
+
+
+df<-data.frame(x=c('a','b','c','c','a','a','a'),
+               x1=c('a','b','c','c','a','a','a'),
+               x2=c('a','b','c','c','a','a','a'),
+               y=c('b','b','c','a','a','a','a'),
+               z1=c(1,2,3,2,1,2,NA),
+               z2=c(1,2,3,2,1,2,10)
+)
+
+
+#arrange
+#combine data sets
+
+
+
 
 
